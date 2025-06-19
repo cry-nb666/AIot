@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .nav-link {
+                @apply relative px-4 py-2 text-gray-700 hover:text-primary transition-colors duration-300;
+            }
+            .nav-link::after {
+                @apply content-[''] absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300;
+            }
+            .nav-link:hover::after {
+                @apply w-full;
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50 min-h-screen flex flex-col">
+    <!-- 导航栏 -->
+    <header class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-8">
+                <a href="#" class="text-xl font-bold text-primary flex items-center">
+                    <img src="AIot的logo.png" alt="错误" width="30" height="30">
+                    <span>破局者</span>
+                </a>
+                <nav class="hidden md:flex space-x-2">
+                    <a href="#" class="nav-link active">首页</a>
+                    <a href="技术展示.html" class="nav-link">技术展示</a>
+                    <a href="团队介绍.html" class="nav-link">团队介绍</a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                                <button class="md:hidden text-gray-700 focus:outline-none" id="menuToggle">
+                    <i class="fa fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden bg-white border-t" id="mobileMenu">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#" class="py-2 px-4 hover:bg-gray-100 rounded-lg transition-colors">首页</a>
+                <a href="#" class="py-2 px-4 hover:bg-gray-100 rounded-lg transition-colors">关于我们</a>
+                
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <section class="text-center py-12">
+            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-gray-800 mb-6">欢迎访问我们的网站</h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto mb-10">破局者 —— 新型物流模式 引领物流新时代</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+
+                <a href="探索更多.html" class="px-8 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <i class="fa fa-rocket mr-2"></i>探索更多
+                </a>
+               
+            </div>
+        </section>
+
+        <section class="py-12 bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">关于我们</h2>
+            <p class="text-gray-600 mb-4">我们是一个致力于提供高质量产品和服务的团队。我们的使命是通过创新技术解决实际问题，为客户创造价值。</p>
+            <p class="text-gray-600">无论您是个人还是企业，我们都能为您提供定制化的解决方案。</p>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fa fa-cube mr-2"></i>破局者
+                    </h3>
+                    <p class="text-gray-400 mb-4">我们致力于提供高质量的产品和服务，满足您的需求。</p>
+                    
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">关于我们</a></li>
+                       
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">联系我们</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fa fa-map-marker mt-1 mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">上海市西南工程学校</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-phone mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">+86 131 4918 8912</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-envelope mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">2928354398@qq.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2025 破局者  保留所有权利 </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 滚动时导航栏效果
+        const navbar = document.getElementById('navbar');
+        let lastScrollTop = 0;
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollTop > 50) {
+                navbar.classList.add('py-2', 'shadow-lg');
+                navbar.classList.remove('py-4', 'shadow-md');
+            } else {
+                navbar.classList.add('py-4', 'shadow-md');
+                navbar.classList.remove('py-2', 'shadow-lg');
+            }
+
+            lastScrollTop = scrollTop;
+        });
+
+        // 添加平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+
+                    // 关闭移动端菜单
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
