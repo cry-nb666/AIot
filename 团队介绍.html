@@ -14,15 +14,27 @@
       theme: {
         extend: {
           colors: {
-            primary: '#165DFF',
-            secondary: '#36CFC9',
-            accent: '#722ED1',
-            dark: '#1D2129',
-            light: '#F2F3F5'
+            // 淡蓝色主色调（科技风）
+            primary: '#409EFF',
+            // 科技蓝（深色）
+            'primary-dark': '#2C7BE5',
+            // 科技青蓝（辅助色）
+            secondary: '#00C2FF',
+            // 科技紫（强调色）
+            accent: '#9D4EDD',
+            // 科技灰（背景和文本）
+            'tech-gray': '#1E293B',
+            'tech-light': '#F8FAFC'
           },
           fontFamily: {
             inter: ['Inter', 'system-ui', 'sans-serif'],
+            tech: ['Orbitron', 'sans-serif'] // 科技感字体
           },
+          boxShadow: {
+            // 科技感发光阴影
+            'glow': '0 0 15px rgba(64, 158, 255, 0.5)',
+            'glow-lg': '0 0 25px rgba(64, 158, 255, 0.7)'
+          }
         },
       }
     }
@@ -35,14 +47,34 @@
         content-visibility: auto;
       }
       .text-shadow {
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        text-shadow: 0 2px 10px rgba(64, 158, 255, 0.5);
       }
       .card-hover {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
       .card-hover:hover {
         transform: translateY(-8px);
-        box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.1), 0 0 15px rgba(64, 158, 255, 0.3);
+      }
+      .map-marker {
+        position: relative;
+      }
+      .map-marker::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #409EFF;
+        border-radius: 50%;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+      }
+      .bg-grid {
+        background-image: linear-gradient(rgba(64, 158, 255, 0.1) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(64, 158, 255, 0.1) 1px, transparent 1px);
+        background-size: 30px 30px;
       }
     }
   </style>
@@ -66,8 +98,8 @@
     
     /* 导航栏滚动效果 */
     .navbar-scrolled {
-      background-color: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      background-color: rgba(30, 41, 59, 0.95);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 0 15px rgba(64, 158, 255, 0.3);
     }
     
     /* 确保页脚在内容下方 */
@@ -76,42 +108,94 @@
       display: flex;
       flex-direction: column;
     }
+    
+    /* 地图容器样式 */
+    .map-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    
+    /* 简化的地图背景 */
+    .map-bg {
+      width: 100%;
+      height: 100%;
+      background-image: url('https://picsum.photos/id/1015/1200/800');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .animated-underline {
+      position: relative;
+      color: #333;
+      text-decoration: none;
+      padding-bottom: 5px;
+    }
+    
+    .animated-underline:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #409EFF;
+      transition: width 0.3s ease;
+    }
+    
+    .animated-underline:hover:after {
+      width: 100%;
+    }
+    
+    /* 科技感脉冲动画 */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    .tech-pulse {
+      animation: pulse 2s infinite;
+    }
   </style>
 </head>
 
-<body class="font-inter bg-gray-50 text-dark page-wrapper">
+<body class="font-inter bg-tech-light text-gray-800 page-wrapper bg-grid">
   <!-- 导航栏 -->
   <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4">
     <div class="container mx-auto px-4 md:px-6">
       <div class="flex justify-between items-center">
         
-        <a href="#" class="text-xl font-bold text-primary flex items-center">
+        <a href="#" class="text-xl font-tech font-bold text-primary flex items-center">
             <img src="AIot的logo.png" alt="错误" width="30" height="30">
             <span>破局者</span>
         </a>
 
         <div class="header">
-        
-        <a href="index.html">返回首页</a>
-    </div>
+          <a href="index.html" class="animated-underline text-gray-700">返回首页</a>
+        </div>
       </div>
-      
-     
     </div>
   </nav>
 
   <!-- 英雄区域 -->
-  <header class="pt-32 pb-20 md:pt-40 md:pb-32 bg-gradient-to-br from-primary/5 to-secondary/5">
+  <header class="pt-32 pb-20 md:pt-40 md:pb-32 bg-gradient-to-br from-primary/5 to-secondary/5 relative overflow-hidden">
+    <!-- 科技感装饰元素 -->
+    <div class="absolute top-0 right-0 w-96 h-96 border-4 border-primary/20 rounded-full blur-3xl -z-10"></div>
+    <div class="absolute bottom-0 left-0 w-72 h-72 border-4 border-secondary/20 rounded-full blur-3xl -z-10"></div>
+    
     <div class="container mx-auto px-4 md:px-6">
       <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold text-dark mb-6 leading-tight text-shadow">
-          汇聚智慧，<span class="text-primary">共创未来</span>
+        <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-tech font-bold text-tech-gray mb-6 leading-tight text-shadow">
+          汇聚智慧，<span class="text-primary tech-pulse">共创未来</span>
         </h1>
         <p class="text-[clamp(1.1rem,2vw,1.3rem)] text-gray-600 mb-10 max-w-3xl mx-auto">
           我们是一支充满激情与创新的团队，在专业导师的引领下，致力于突破技术边界，打造具有影响力的项目。
         </p>
         <div class="flex flex-wrap justify-center gap-4">
-          <a href="#team" class="px-8 py-3 bg-primary text-white rounded-full shadow-lg hover:shadow-xl hover:bg-primary/90 transition-all">
+          <a href="#team" class="px-8 py-3 bg-primary text-white rounded-full shadow-glow hover:shadow-glow-lg hover:bg-primary-dark transition-all">
             了解团队
           </a>
           <a href="#mentors" class="px-8 py-3 bg-white text-primary border-2 border-primary rounded-full hover:bg-primary/5 transition-all">
@@ -126,83 +210,75 @@
   <section id="team" class="py-20 bg-white">
     <div class="container mx-auto px-4 md:px-6">
       <div class="text-center mb-16">
-        <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-dark mb-4">核心团队</h2>
-        <p class="text-gray-600 max-w-2xl mx-auto">由来自不同领域的专业人才组成，我们互补协作，追求卓越。</p>
+        <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-tech font-bold text-tech-gray mb-4">核心团队</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">我们团队是由对不同领域的颇有研究的人才所组成，我们互补协作，追求卓越。</p>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- 团队成员 1 -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in" style="animation-delay: 0.1s">
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-md overflow-hidden card-hover fade-in border border-primary/10" style="animation-delay: 0.1s">
           <div class="relative h-64 overflow-hidden">
             <img src="qhc.png" alt="齐海程 - 团队负责人" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
           </div>
           <div class="p-6">
-            <h3 class="text-xl font-bold text-dark mb-1">齐海程</h3>
+            <h3 class="text-xl font-bold text-tech-gray mb-1">齐海程</h3>
             <p class="text-primary font-medium mb-3">团队负责人</p>
-            <p class="text-gray-600 mb-4">计算机世家，拥有广袤的相关人脉和对相关市场的熟知度<hr>
-                全栈开发专家,精通多种技术栈<hr>
+            <p class="text-gray-600 mb-4">计算机世家，拥有广袤的相关人脉和对相关市场的熟知度<hr>全栈开发专家,精通多种技术栈<hr>
                 中国国际大学生创新大赛职教赛道上海赛区铜奖<hr>
                 “同立方杯”全国职业院校自动化产线装调仿真技能大赛三等奖<hr>
                 上海市创新创意大赛优胜奖<hr>
                 利用自身资源，能力优势打造Aiot团队</p>
-            
           </div>
         </div>
         
         <!-- 团队成员 2 -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in" style="animation-delay: 0.2s">
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-md overflow-hidden card-hover fade-in border border-primary/10" style="animation-delay: 0.2s">
           <div class="relative h-64 overflow-hidden">
             <img src="神.png" alt="陈睿阳 - 技术总监" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
           </div>
           <div class="p-6">
-            <h3 class="text-xl font-bold text-dark mb-1">陈睿阳</h3>
+            <h3 class="text-xl font-bold text-tech-gray mb-1">陈睿阳</h3>
             <p class="text-primary font-medium mb-3">技术总监</p>
-            <p class="text-gray-600 mb-4">全栈开发专家，精通多种技术栈<hr>上海市创新创意大赛优胜奖<hr>拥有人工智能训练师证书<hr>拥有前端工程师证书<hr>计算机操作二等奖<hr>参加过“同立方杯”第四届全国职业院校自动化产线技能大赛，互联网+创新创业大赛<hr></p>
-           
+            <p class="text-gray-600 mb-4">全栈开发专家，精通多种技术栈<hr>上海市创新创意大赛优胜奖<hr>拥有人工智能训练师证书<hr>拥有前端工程师证书<hr>计算机操作二等奖<hr>参加过“同立方杯”第四届全国职业院校自动化产线技能大赛，互联网+创新创业大赛</p>
           </div>
         </div>
         
         <!-- 团队成员 3 -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in" style="animation-delay: 0.3s">
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-md overflow-hidden card-hover fade-in border border-primary/10" style="animation-delay: 0.3s">
           <div class="relative h-64 overflow-hidden">
             <img src="lzg.png" alt="lzx - 设计师" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
           </div>
           <div class="p-6">
-            <h3 class="text-xl font-bold text-dark mb-1">刘子铉</h3>
+            <h3 class="text-xl font-bold text-tech-gray mb-1">刘子铉</h3>
             <p class="text-primary font-medium mb-3">后勤主任</p>
             <p class="text-gray-600 mb-4">拥有高级网联车安全员证书<hr>计算机操作三等奖<hr>拥有优秀志愿者证书<hr>参加过“同立方杯”第四届全国职业院校自动化产线技能大赛<hr>互联网+创新创业大赛<hr>
 </p>
-           
           </div>
         </div>
         
         <!-- 团队成员 4 -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in" style="animation-delay: 0.4s">
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-md overflow-hidden card-hover fade-in border border-primary/10" style="animation-delay: 0.4s">
           <div class="relative h-64 overflow-hidden">
             <img src="yyf.png" alt="yyf - 产品经理" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
           </div>
           <div class="p-6">
-            <h3 class="text-xl font-bold text-dark mb-1">杨宇凡</h3>
+            <h3 class="text-xl font-bold text-tech-gray mb-1">杨宇凡</h3>
             <p class="text-primary font-medium mb-3">产品经理</p>
             <p class="text-gray-600 mb-4">上海市创新创意大赛优胜奖<hr>在班级内担任班长，组织能力突出，团队内交流协商具有突出表现<hr>参加过“同立方杯”第四届全国职业院校自动化产线技能大赛互联网+创新创业大赛<hr>
 </p>
-            
           </div>
         </div>
         
-        
-        
         <!-- 团队成员 5 -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in" style="animation-delay: 0.6s">
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-md overflow-hidden card-hover fade-in border border-primary/10" style="animation-delay: 0.6s">
           <div class="relative h-64 overflow-hidden">
-            <img src="wjy.png" alt="林小雨 - 市场专员" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+            <img src="wjy.png" alt="wjy - 市场专员" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
           </div>
           <div class="p-6">
-            <h3 class="text-xl font-bold text-dark mb-1">吴俊宇</h3>
+            <h3 class="text-xl font-bold text-tech-gray mb-1">吴俊宇</h3>
             <p class="text-primary font-medium mb-3">市场总监</p>
             <p class="text-gray-600 mb-4">中国国际大学生创新大赛职教赛道上海赛区铜奖<hr>上海市创新创意大赛优胜奖<hr>曾担任班长一职，业务能力强<hr>参与校辩论社，交流语言逻辑能力出色<hr>
 </p>
-            
           </div>
         </div>
       </div>
@@ -211,7 +287,7 @@
       <div class="mt-20 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-8 md:p-12">
         <div class="flex flex-col md:flex-row items-center">
           <div class="md:w-1/2 mb-8 md:mb-0 md:pr-12">
-            <h3 class="text-2xl font-bold text-dark mb-4">我们的使命</h3>
+            <h3 class="text-2xl font-tech font-bold text-tech-gray mb-4">我们的使命</h3>
             <p class="text-gray-600 mb-6">
               我们是一个致力于提供高质量产品和服务的团队。我们的使命是通过创新技术解决实际问题，为客户创造价值。
             </p>
@@ -234,18 +310,18 @@
   <section id="mentors" class="py-20 bg-gray-50">
     <div class="container mx-auto px-4 md:px-6">
       <div class="text-center mb-16">
-        <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-dark mb-4">专业指导老师</h2>
-        <p class="text-gray-600 max-w-2xl mx-auto">来自行业顶尖企业和学术机构的专家，为我们提供专业指导和宝贵经验。</p>
+        <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-tech font-bold text-tech-gray mb-4">专业指导老师</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">由行业顶尖专家和学术机构的专家，为我们提供专业指导和宝贵经验。</p>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- 导师 1 -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in" style="animation-delay: 0.1s">
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-md overflow-hidden card-hover fade-in border border-primary/10" style="animation-delay: 0.1s">
           <div class="relative h-64 overflow-hidden">
             <img src="lsc.png" alt="李烁琛 - 人工智能专家" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
           </div>
           <div class="p-6">
-            <h3 class="text-xl font-bold text-dark mb-1">李烁琛老师</h3>
+            <h3 class="text-xl font-bold text-tech-gray mb-1">李烁琛老师</h3>
             <p class="text-primary font-medium mb-3">专业领域：机器人控制技术,机器人视觉技术,机器人智能控制, 机器人系统建模与仿真，创新创业教育</p>
             <p class="text-gray-600 mb-4">竞赛委员会委员<hr>
 全国大赛专家裁判<hr>
@@ -254,35 +330,127 @@
 产教融合和专业指导委员会委员<hr>
 智能制造和人才培养标准建设专家研究的领域包括:智能控制技术、视觉技术、系统建模与仿真、无人机技术、创新创业教育等<hr>
 </p>
-            
           </div>
         </div>
         
         <!-- 导师 2 -->
-        <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover fade-in" style="animation-delay: 0.2s">
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-md overflow-hidden card-hover fade-in border border-primary/10" style="animation-delay: 0.2s">
           <div class="relative h-64 overflow-hidden">
             <img src="lmh.png" alt="lmh - 产品战略专家" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
           </div>
           <div class="p-6">
-            <h3 class="text-xl font-bold text-dark mb-1">李美红</h3>
+            <h3 class="text-xl font-bold text-tech-gray mb-1">李美红</h3>
             <p class="text-primary font-medium mb-3">产品战略专家</p>
             <p class="text-gray-600 mb-4">上海市西南工程学校“双师型“教师<hr>
                 指导第三届上海市“双碳”提案特等奖<hr>优秀指导教师<hr>2024上海市大学生创新创业大赛（职教赛道）金奖及优秀指导教师<hr>第十届上海市职业院校学生创新创意大赛获得铜奖<hr>上海市“优秀班主任”</p>
-            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 合作伙伴部分 -->
+  <section id="partners" class="py-20 bg-white">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-tech font-bold text-tech-gray mb-4">合作伙伴</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">与我们携手共进的行业领先企业，共同推动技术创新与项目落地</p>
+      </div>
+      
+      <!-- 合作伙伴详细信息 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- 合作伙伴 1 -->
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-md overflow-hidden card-hover fade-in border border-primary/10" style="animation-delay: 0.1s">
+          <div class="relative h-100 overflow-hidden">
+            <img src="智能科技公司.jpg" alt="上海棣欧智能科技有限公司" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+              <i class="fa fa-robot text-2xl text-primary"></i>
+            </div>
+            <h3 class="text-xl font-bold text-tech-gray mb-2">上海棣欧智能科技有限公司</h3>
+            <p class="text-primary font-medium mb-3">人工智能研发</p>
+            <p class="text-gray-600 mb-4">位于上海市闵行区鹤庆路，专注于计算机科技、软件科技、生物科技、通讯科技领域内技术服务，为我们提供技术支持与解决方案。</p>
           </div>
         </div>
         
+        <!-- 合作伙伴 2 -->
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-md overflow-hidden card-hover fade-in border border-primary/10" style="animation-delay: 0.2s">
+          <div class="relative h-100 overflow-hidden">
+            <img src="孟泰.jpg" alt="上海孟泰环保工程有限公司" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mb-4">
+              <i class="fa fa-cogs text-2xl text-secondary"></i>
+            </div>
+            <h3 class="text-xl font-bold text-tech-gray mb-2">上海孟泰环保工程有限公司</h3>
+            <p class="text-primary font-medium mb-3">工业机器人技术</p>
+            <p class="text-gray-600 mb-4">坐落于上海市杨浦区贵阳路，专注于工程管理服务；普通机械设备服务，工业机器人服务；电子、机械设备服务等等，为我们的项目提供硬件支持与机器人技术解决方案。</p>
+          </div>
+        </div>
         
+        <!-- 合作伙伴 3 -->
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-md overflow-hidden card-hover fade-in border border-primary/10" style="animation-delay: 0.3s">
+          <div class="relative h-100 overflow-hidden">
+            <img src="机械公司.jpg" alt="上海明佳机械有限公司" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mb-4">
+              <i class="fa fa-wifi text-2xl text-accent"></i>
+            </div>
+            <h3 class="text-xl font-bold text-tech-gray mb-2">上海明佳机械有限公司</h3>
+            <p class="text-primary font-medium mb-3">物联网解决方案</p>
+            <p class="text-gray-600 mb-4">位于上海市奉贤区奉城镇东街，是从事冷作钣金制造加工的领先企业，为我们提供了我们所需要的板材。</p>
+          </div>
+        </div>
+        
+        <!-- 合作伙伴 4 -->
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-md overflow-hidden card-hover fade-in border border-primary/10" style="animation-delay: 0.4s">
+          <div class="relative h-100 overflow-hidden">
+            <img src="月之恒.jpg" alt="上海月之恒网络科技有限公司" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+              <i class="fa fa-lightbulb-o text-2xl text-green-600"></i>
+            </div>
+            <h3 class="text-xl font-bold text-tech-gray mb-2">上海月之恒网络科技有限公司</h3>
+            <p class="text-primary font-medium mb-3">人工智能研发</p>
+            <p class="text-gray-600 mb-4">位于上海市奉贤区肖塘路，专注于人工智能算法研发与应用，我们共同研发我们的人工智能板块。</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 合作价值 -->
+      <div class="mt-20 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-8 md:p-12">
+        <div class="text-center">
+          <h3 class="text-2xl font-tech font-bold text-tech-gray mb-6">合作创造价值</h3>
+          <p class="text-gray-600 max-w-3xl mx-auto mb-8">
+            我们与合作伙伴建立了长期稳定的合作关系，通过资源共享、技术互补，共同推动创新项目的落地与发展。
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <div class="text-center p-4">
+              <div class="text-3xl font-bold text-primary mb-1">4+</div>
+              <div class="text-gray-600">合作伙伴</div>
+            </div>
+            <div class="text-center p-4">
+              <div class="text-3xl font-bold text-secondary mb-1">4个</div>
+              <div class="text-gray-600">合作项目</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- 页脚 -->
-  <footer class="bg-dark text-white py-12 w-full mt-auto">
-    <div class="container mx-auto px-4">
+  <footer class="bg-tech-gray text-white py-12 w-full mt-auto relative overflow-hidden">
+    <!-- 科技感背景装饰 -->
+    <div class="absolute inset-0 bg-grid opacity-20 -z-10"></div>
+    
+    <div class="container mx-auto px-4 relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-                <h3 class="text-xl font-bold mb-4 flex items-center">
+                <h3 class="text-xl font-tech font-bold mb-4 flex items-center">
                     <i class="fa fa-cube mr-2"></i>破局者
                 </h3>
                 <p class="text-gray-400 mb-4">我们致力于提供高质量的产品和服务，满足您的需求。</p>
@@ -290,8 +458,8 @@
             <div>
                 <h3 class="text-lg font-semibold mb-4">快速链接</h3>
                 <ul class="space-y-2">
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition-colors">关于我们</a></li>
+                    <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                    
                 </ul>
             </div>
             <div>
