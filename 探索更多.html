@@ -1,152 +1,291 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>破局者 - 新型物流模式</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <title>探索更多</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+    
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // 淡蓝色主色调（科技风）
+                        primary: '#409EFF',
+                        // 科技蓝（深色）
+                        'primary-dark': '#2C7BE5',
+                        // 科技青蓝（辅助色）
+                        secondary: '#00C2FF',
+                        // 科技紫（强调色）
+                        accent: '#9D4EDD',
+                        // 科技灰（背景和文本）
+                        'tech-gray': '#1E293B',
+                        'tech-light': '#F8FAFC'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                        tech: ['Orbitron', 'sans-serif'] // 科技感字体
+                    },
+                    boxShadow: {
+                        // 科技感发光阴影
+                        'glow': '0 0 15px rgba(64, 158, 255, 0.5)',
+                        'glow-lg': '0 0 25px rgba(64, 158, 255, 0.7)'
+                    }
+                }
+            }
         }
-        .header {
-            background-color: #fff;
-            color: #333;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-        }
-        .header a {
-            color: #333;
-            text-decoration: none;
-            font-size: 16px;
-            position: relative; /* 添加相对定位 */
-            transition: color 0.3s, text-decoration 0.3s; /* 添加过渡效果 */
-        }
-        .header a:hover {
-            color: #007BFF; /* 鼠标悬停时字体颜色变为蓝色 */
-            text-decoration: underline; /* 添加下划线 */
-        }
-        .header a::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -2px;
-            width: 100%;
-            height: 2px;
-            background-color: transparent;
-            transition: background-color 0.3s;
-        }
-        .header a:hover::after {
-            background-color: #007BFF; /* 鼠标悬停时下划线颜色变为蓝色 */
-        }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .content img {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
-            border-radius: 8px;
-        }
-        .text {
-            flex: 1;
-            margin-left: 20px;
-        }
-        .text h2 {
-            color: #4CAF50;
-        }
-        .text p {
-            line-height: 1.6;
-        }
-        .footer {
-            background-color: #1f2937;
-            color: #fff;
-            text-align: center;
-            padding: 10px 20px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
+    </script>
+    
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 10px rgba(64, 158, 255, 0.5);
+            }
+            .hover-underline {
+                @apply relative;
+            }
+            .hover-underline::after {
+                content: '';
+                @apply absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out;
+            }
+            .hover-underline:hover::after {
+                @apply w-full;
+            }
+            .bg-grid {
+                background-image: linear-gradient(rgba(64, 158, 255, 0.1) 1px, transparent 1px),
+                                  linear-gradient(90deg, rgba(64, 158, 255, 0.1) 1px, transparent 1px);
+                background-size: 30px 30px;
+            }
         }
     </style>
+    
+    <style>
+        /* 基础动画定义 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        /* 图片加载动画 */
+        .img-loading {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* 科技感脉冲动画 */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .tech-pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+    
+    <!-- 引入科技感字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- 页头 -->
-    <div class="header">
-        <a href="#" class="text-xl font-bold text-primary flex items-center">
-                    <img src="AIot的logo.png" alt="错误" width="30" height="30">
-                    <span>破局者</span>
-                </a>
-        <h2>探索更多</h2>
-        <a href="index.html">返回首页</a>
-    </div>
+<body class="font-inter bg-tech-light text-gray-800 bg-grid">
+    <!-- 导航栏 -->
+    <header class="sticky top-0 z-50 bg-tech-gray/95 backdrop-blur-md shadow-glow transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-2 hover:opacity-90 transition-opacity">
+                <img src="AIot的logo.png" alt="破局者AIoT物流" class="w-12 h-12 rounded-lg border-2 border-primary/50">
+                <span class="text-xl font-tech font-bold text-primary">破局者</span>
+            </a>
+            
+            <h2 class="text-lg md:text-xl font-tech font-semibold text-gray-200 hidden md:block">探索更多</h2>
+            
+            <a href="index.html" class="hover-underline text-gray-300 hover:text-primary transition-colors duration-300 flex items-center">
+                <i class="fa fa-home mr-1"></i> 返回首页
+            </a>
+        </div>
+    </header>
 
-    <!-- 主体内容 -->
-    <div class="container">
-        <h1>破局者 —— 新型物流模式 引领物流新时代</h1>
-        <div class="content">
-            <img src="教学.JPG" width="380" height="170" alt="图片描述" />
-            <div class="text">
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-8 md:py-12">
+        <section class="text-center mb-10 relative overflow-hidden">
+            <!-- 科技感装饰元素 -->
+            <div class="absolute top-0 right-0 w-64 h-64 border-4 border-primary/20 rounded-full blur-3xl -z-10"></div>
+            <div class="absolute bottom-0 left-0 w-48 h-48 border-4 border-secondary/20 rounded-full blur-3xl -z-10"></div>
+            
+            <h1 class="text-[clamp(1.8rem,5vw,2.8rem)] font-tech font-bold text-tech-gray mb-4 text-shadow">
+                破局者 —— 新型物流模式 <span class="text-primary tech-pulse">引领物流新时代</span>
+            </h1>
+            <div class="w-24 h-1 bg-secondary mx-auto rounded-full"></div>
+        </section>
+        
+        <!-- 内容卡片 -->
+        <section class="space-y-12">
+            <!-- 卡片1 -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden transform hover:shadow-glow transition-all duration-300 border border-primary/10">
+                <div class="md:flex">
+                    <div class="md:w-1/3 overflow-hidden">
+                        <img 
+                            src="教学.JPG" 
+                            alt="机器人小车编程研究" 
+                            class="w-full h-64 md:h-full object-cover transform hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                        >
+                    </div>
+                    <div class="p-6 md:w-2/3">
+                        <h2 class="text-xl font-tech font-bold text-primary-dark mb-3">机器人编程与数据联通</h2>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            这张图片是我们在研究机器人小车模型，在进行机器人编程实现后台数据和机器人小车的数据联通。
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            因为编程和软件开发是计算机科学的重要内容，而机器人的控制又离不开计算机技术。我们和同学在学习机器人的编程过程中，需要将计算机科学中的数据结构、算法等知识应用到工程实践中。同时，机器人传感器数据的处理也涉及到计算机图像处理、信号处理等技术。通过这种融合，可以让我们能够更好地理解计算机科学在工程领域的应用，拓宽知识面。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 卡片2 -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden transform hover:shadow-glow transition-all duration-300 border border-secondary/10">
+                <div class="md:flex">
+                    <div class="md:w-1/3 overflow-hidden">
+                        <img 
+                            src="热力图学习.JPG" 
+                            alt="机器人数据建模" 
+                            class="w-full h-64 md:h-full object-cover transform hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                        >
+                    </div>
+                    <div class="p-6 md:w-2/3">
+                        <h2 class="text-xl font-tech font-bold text-primary-dark mb-3">机器人数据建模与实时监控</h2>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            这张图片是我们在研究机器人小车模型的后台数据建模，实现后台数据和机器人小车的实时数据。
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            在教育过程中，学生可以学习如何组装这些机械部件。例如，他们需要了解不同类型的轴承、齿轮在机器人运动中的作用，通过实际动手组装，掌握机械连接、固定和调整的技巧。同时，对机器人的日常维护也是重要的实践内容，包括检查机械部件的磨损情况、润滑等，这有助于学生培养严谨的工程态度和实际动手能力。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 卡片3 -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden transform hover:shadow-glow transition-all duration-300 border border-accent/10">
+                <div class="md:flex">
+                    <div class="md:w-1/2 grid grid-cols-2 gap-0">
+                        <img 
+                            src="投稿.png" 
+                            alt="媒体报道" 
+                            class="w-full h-48 object-cover transform hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                        >
+                        <img 
+                            src="上海投稿.png" 
+                            alt="行业认可" 
+                            class="w-full h-48 object-cover transform hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                        >
+                    </div>
+                    <div class="p-6 md:w-1/2">
+                        <h2 class="text-xl font-tech font-bold text-primary-dark mb-3">媒体报道与行业认可</h2>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            这张图片是我们在研究机器人小车的同时向11家媒体投稿的报道，AIoT搬运机器人由多个机械部件组成，如车体框架、驱动轮、转向机构等。
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            AIoT搬运机器人能够实现货物的自动化搬运，减少人工干预，大大提高了物流和生产的效率。在工厂、仓库等场所，AIoT可以按照预设的路径和任务，快速、准确地搬运原材料、零部件和成品，减少了人工搬运的时间和错误率。例如，在大型电商仓库中，AIoT机器人可以快速将货物从存储区搬运到分拣区，显著提高了订单处理速度。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 卡片4 -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden transform hover:shadow-glow transition-all duration-300 border border-primary/10">
+                <div class="md:flex">
+                    <div class="md:w-1/3 overflow-hidden">
+                        <img 
+                            src="参展学习.jpg" 
+                            alt="行业展会学习" 
+                            class="w-full h-64 md:h-full object-cover transform hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                        >
+                    </div>
+                    <div class="p-6 md:w-2/3">
+                        <h2 class="text-xl font-tech font-bold text-primary-dark mb-3">行业展会与技术交流</h2>
+                        <p class="text-gray-700 leading-relaxed">
+                            这张图片是我们在研究机器人小车模型的同时不忘参加展览会，以此来学习行业最新技术。通过参加各类行业展会和技术交流活动，我们能够及时了解行业动态和前沿技术，与同行进行深入交流和合作，不断提升团队的技术水平和创新能力。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-tech-gray text-white py-8 relative overflow-hidden">
+        <!-- 科技感背景装饰 -->
+        <div class="absolute inset-0 bg-grid opacity-20 -z-10"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <p>&copy; 2025 破局者 - AIoT智能物流解决方案</p>
+                    <p class="text-gray-400 text-sm mt-1">智能物流技术创新者</p>
+                </div>
                 
-                <p>这张图片是我们在研究机器人小车模型，在进行机器人编程实现后台数据和机器人小车的数据联通</p>
-                <hr>
-                <br>
-                <p>因为编程和软件开发是计算机科学的重要内容，而机器人的控制又离不开计算机技术。我们和同学在学习机器人的编程过程中，需要将计算机科学中的数据结构、算法等知识应用到工程实践中。同时，机器人传感器数据的处理也涉及到计算机图像处理、信号处理等技术。通过这种融合，可以让我们能够更好地理解计算机科学在工程领域的应用，拓宽知识面</p>
             </div>
         </div>
-        <div class="content">
-            <img src="热力图学习.JPG" width="380" height="170" alt="图片描述" />
-            
-            <div class="text">
-                <p>这张图片是我们在研究机器人小车模型的后台数据建模，实现后台数据和机器人小车的实时数据</p>
-                <br>
-                <p>在教育过程中，学生可以学习如何组装这些机械部件。例如，他们需要了解不同类型的轴承、齿轮在机器人运动中的作用，通过实际动手组装，掌握机械连接、固定和调整的技巧。同时，对机器人的日常维护也是重要的实践内容，包括检查机械部件的磨损情况、润滑等，这有助于学生培养严谨的工程态度和实际动手能力</p>
-            </div>
-        </div>
-        <div class="content1">
-            <img src="投稿.png" width="380" height="170" alt="图片描述" />
-            <img src="上海投稿.png" width="380" height="170" alt="图片描述" />
-            <div class="text">
-                <p>这张图片是我们在研究机器人小车的同时向11家媒体投稿的报道，aiot搬运机器人由多个机械部件组成，如车体框架、驱动轮、转向机构等，提升物流与生产效率aiot搬运机器人能够实现货物的自动化搬运，减少人工干预，大大提高了物流和生产的效率。在工厂、仓库等场所，aiot可以按照预设的路径和任务，快速、准确地搬运原材料、零部件和成品，减少了人工搬运的时间和错误率。例如，在大型电商仓库中，aiot机器人可以快速将货物从存储区搬运到分拣区，显著提高了订单处理速度</p>
-            </div>
-        </div>
-        <div class="content2">
-            <img src="参展学习.jpg" width="380" height="170" alt="图片描述" />
-            <div class="text">
-                <p></p>
-            </div>
-        </div>
-        <div class="content2">
-            
-            <div class="text">
-                <p>这张图片是我们在研究机器人小车模型的同时不忘参加展览会，以此来学习行业最新技术</p>
-            </div>
-        </div>
-        <hr>
-        <hr>
-    </div>
+    </footer>
 
-    <!-- 页尾 -->
-    <div class="footer">
-        <p>&copy; 2025 破局者</p>
-    </div>
+    <!-- 平滑滚动脚本 -->
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-glow-lg');
+                header.classList.remove('shadow-glow');
+            } else {
+                header.classList.remove('shadow-glow-lg');
+                header.classList.add('shadow-glow');
+            }
+        });
+        
+        // 图片加载状态处理
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                // 添加加载状态
+                img.classList.add('img-loading');
+                
+                img.onload = function() {
+                    // 图片加载完成后移除加载状态
+                    img.classList.remove('img-loading');
+                    // 添加淡入动画
+                    img.classList.add('animate-fade-in');
+                }
+                
+                // 图片加载失败处理
+                img.onerror = function() {
+                    img.classList.remove('img-loading');
+                    img.alt = "图片加载失败";
+                    img.src = "https://picsum.photos/800/400?random=error";
+                }
+            });
+        });
+    </script>
 </body>
 </html>
