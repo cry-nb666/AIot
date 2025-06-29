@@ -1,127 +1,243 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>破局者 - 技术展示</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <title>技术展示</title>
+    
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#007BFF',
+                        secondary: '#4CAF50',
+                        dark: '#1f2937',
+                        light: '#f4f4f4'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .hover-underline {
+                @apply relative;
+            }
+            .hover-underline::after {
+                content: '';
+                @apply absolute left-0 bottom-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out;
+            }
+            .hover-underline:hover::after {
+                @apply w-full;
+            }
+            .video-container {
+                @apply relative overflow-hidden rounded-xl;
+            }
+            .video-container::before {
+                content: '';
+                @apply absolute top-0 left-0 w-full h-full bg-black/30;
+            }
+            .video-play-icon {
+                @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-primary/80 text-white rounded-full flex items-center justify-center cursor-pointer transition-transform duration-300 hover:scale-110;
+            }
+        }
+    </style>
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+        /* 基础动画定义 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .header {
-            background-color: #fff;
-            color: #333;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
         }
-        .header a {
-            color: #333;
-            text-decoration: none;
-            font-size: 16px;
-            position: relative; /* 添加相对定位 */
-            transition: color 0.3s, text-decoration 0.3s; /* 添加过渡效果 */
+        
+        /* 视频加载骨架屏 */
+        .video-loading {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
         }
-        .header a:hover {
-            color: #007BFF; /* 鼠标悬停时字体颜色变为蓝色 */
-            text-decoration: underline; /* 添加下划线 */
-        }
-        .header a::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -2px;
-            width: 100%;
-            height: 2px;
-            background-color: transparent;
-            transition: background-color 0.3s;
-        }
-        .header a:hover::after {
-            background-color: #007BFF; /* 鼠标悬停时下划线颜色变为蓝色 */
-        }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .content img {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
-            border-radius: 8px;
-        }
-        .text {
-            flex: 1;
-            margin-left: 20px;
-        }
-        .text h2 {
-            color: #4CAF50;
-        }
-        .text p {
-            line-height: 1.6;
-        }
-        .footer {
-            background-color: #1f2937;
-            color: #fff;
-            text-align: center;
-            padding: 10px 20px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
     </style>
 </head>
-<body>
-    <!-- 页头 -->
-     
-    <div class="header">
-        <a href="#" class="text-xl font-bold text-primary flex items-center">
-                    <img src="AIot的logo.png" alt="错误" width="30" height="30">
-                    <span>破局者</span>
-                </a>
-        <h2>技术展示</h2>
-        <a href="index.html">返回首页</a>
-    </div>
-
-    <!-- 主体内容 -->
-    <div class="container">
-        <h1>破局者 —— 新型物流模式 引领物流新时代</h1>
-        <div class="content">
-            <video src="小车.mp4"  width="580" height="370" controls></video>
-            <div class="text">
-                <h2>这是我们的热力图</h2>
-                <p>我们的小车可以扫描房屋进行建模，后由小车移动产生位置坐标信号，再发送到我们的后台程序，最后显示出来，最后效果如下</p>
-            </div>
+<body class="font-inter bg-light text-gray-800">
+    <!-- 导航栏 -->
+    <header class="sticky top-0 z-50 bg-white shadow-md transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-2 hover:opacity-90 transition-opacity">
+                <img src="AIot的logo.png" alt="破局者AIoT物流" class="w-8 h-8 rounded-lg">
+                <span class="text-xl font-bold text-primary">破局者</span>
+            </a>
+            
+            <h2 class="text-lg md:text-xl font-semibold text-gray-700 hidden md:block">技术展示</h2>
+            
+            <a href="index.html" class="hover-underline text-gray-700 hover:text-primary transition-colors duration-300 flex items-center">
+                <i class="fa fa-home mr-1"></i> 返回首页
+            </a>
         </div>
-        <div class="content">
-            <video src="热力图.mp4"  width="580" height="370" controls></video>
-            <div class="text">
-                <h2>此图我们的队员在进行代码的更新</h2>
-                <p><img src="cry.JPG"  width="880" height="670" alt="图片描述"></p>
-            </div>
-        </div>
-    </div>
+    </header>
 
-    <!-- 页尾 -->
-    <div class="footer">
-        <p>&copy; 2025 破局者</p>
-    </div>
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-8 md:py-12">
+        <section class="text-center mb-10">
+            <h1 class="text-[clamp(1.8rem,5vw,2.8rem)] font-bold text-gray-800 mb-4 text-shadow">
+                破局者 —— 新型物流模式 <span class="text-primary">引领物流新时代</span>
+            </h1>
+            <div class="w-24 h-1 bg-secondary mx-auto rounded-full"></div>
+        </section>
+        
+        <!-- 技术展示内容 -->
+        <section class="space-y-12">
+            <!-- 展示项1：热力图视频 -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:shadow-xl transition-all duration-300">
+                <div class="md:flex">
+                    <div class="md:w-1/2 video-container">
+                        <video 
+                            src="小车.mp4" 
+                            alt="物流小车热力图演示" 
+                            class="w-full h-auto md:h-[370px] object-cover"
+                            controls
+                            loading="lazy"
+                        >
+                            您的浏览器不支持视频播放
+                        </video>
+                        <div class="video-play-icon">
+                            <i class="fa fa-play text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6 md:w-1/2">
+                        <h2 class="text-xl font-bold text-secondary mb-3">物流小车热力图建模演示</h2>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            这是我们的热力图演示视频，展示了物流小车的空间建模能力。
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            我们的小车可以扫描房屋进行建模，通过移动产生位置坐标信号，发送到后台程序处理后实时显示热力图效果。这一技术实现了物流环境的数字化映射，为智能路径规划和资源调度提供了数据基础。
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 展示项2：代码更新演示 -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:shadow-xl transition-all duration-300">
+                <div class="md:flex flex-col-reverse md:flex-row">
+                    <div class="p-6 md:w-1/2">
+                        <h2 class="text-xl font-bold text-secondary mb-3">开发团队代码更新过程</h2>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            此图展示了我们的队员在进行系统代码的更新与优化。
+                        </p>
+                        <p class="text-gray-600 leading-relaxed">
+                            开发团队持续对物流小车的控制系统、数据传输协议和后台管理系统进行迭代升级。通过模块化设计和版本控制管理，我们确保了代码的可维护性和系统的稳定性，同时不断引入前沿技术提升物流解决方案的智能化水平。
+                        </p>
+                    </div>
+                    <div class="md:w-1/2 video-container">
+                        <video 
+                            src="热力图.mp4" 
+                            alt="代码更新演示" 
+                            class="w-full h-auto md:h-[370px] object-cover"
+                            controls
+                            loading="lazy"
+                        >
+                            您的浏览器不支持视频播放
+                        </video>
+                        <div class="video-play-icon">
+                            <i class="fa fa-play text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 图片展示 -->
+                <div class="mt-6 p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">开发过程实拍</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <img 
+                            src="cry.JPG" 
+                            alt="开发团队工作场景" 
+                            class="w-full h-64 object-cover rounded-lg transform hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                        >
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 破局者 - AIoT智能物流解决方案</p>
+            
+        </div>
+    </footer>
+
+    <!-- 交互脚本 -->
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 10) {
+                header.classList.add('py-2');
+                header.classList.add('shadow-lg');
+            } else {
+                header.classList.remove('py-2');
+                header.classList.remove('shadow-lg');
+            }
+        });
+        
+        // 视频播放图标交互
+        document.addEventListener('DOMContentLoaded', function() {
+            const playIcons = document.querySelectorAll('.video-play-icon');
+            playIcons.forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const video = this.parentElement.querySelector('video');
+                    video.play();
+                });
+            });
+            
+            // 图片加载状态处理
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                // 添加加载状态
+                img.classList.add('img-loading');
+                
+                img.onload = function() {
+                    // 图片加载完成后移除加载状态
+                    img.classList.remove('img-loading');
+                    // 添加淡入动画
+                    img.classList.add('animate-fade-in');
+                }
+                
+                // 图片加载失败处理
+                img.onerror = function() {
+                    img.classList.remove('img-loading');
+                    img.alt = "图片加载失败";
+                    img.src = "https://picsum.photos/800/600?random=error";
+                }
+            });
+        });
+    </script>
 </body>
 </html>
